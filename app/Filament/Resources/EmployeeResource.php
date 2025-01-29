@@ -17,7 +17,9 @@ class EmployeeResource extends Resource
 {
     protected static ?string $model = Employee::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-user-group';
+
+    protected static ?string $navigationGroup = 'Employee Management';
 
     public static function form(Form $form): Form
     {
@@ -36,18 +38,18 @@ class EmployeeResource extends Resource
                 Forms\Components\Section::make('Address')
                     ->description('Please enter the address.')
                     ->schema([
-                        Forms\Components\TextInput::make('country_id')
-                        ->required()
-                        ->numeric(),
-                        Forms\Components\TextInput::make('state_id')
-                        ->required()
-                        ->numeric(),
-                        Forms\Components\TextInput::make('city_id')
-                        ->required()
-                        ->numeric(),
-                        Forms\Components\TextInput::make('department_id')
-                        ->required()
-                        ->numeric(),
+                        Forms\Components\Select::make('country_id')
+                        ->relationship('country' , 'name')
+                        ->required(),
+                        Forms\Components\Select::make('state_id')
+                        ->relationship('state','name')
+                        ->required(),
+                        Forms\Components\Select::make('city_id')
+                        ->relationship('city' , 'name')
+                        ->required(),
+                        Forms\Components\Select::make('department_id')
+                        ->relationship('department','name')
+                        ->required(),
                         Forms\Components\TextInput::make('address')
                         ->required(),
                         Forms\Components\TextInput::make('zip_code')
