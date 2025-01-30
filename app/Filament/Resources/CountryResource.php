@@ -18,6 +18,8 @@ use App\Filament\Resources\CountryResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\CountryResource\RelationManagers;
 use Filament\Forms\Components\TextInput as ComponentsTextInput;
+use App\Filament\Resources\CountryResource\RelationManagers\StateRelationManager;
+use App\Filament\Resources\CountryResource\RelationManagers\StatesRelationManager;
 
 class CountryResource extends Resource
 {
@@ -77,7 +79,7 @@ class CountryResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            StateRelationManager::class
         ];
     }
 

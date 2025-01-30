@@ -17,8 +17,7 @@ use Filament\Infolists\Components\TextEntry;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\DepartmentResource\Pages;
 use App\Filament\Resources\DepartmentResource\RelationManagers;
-
-
+use Filament\Tables\Filters\SelectFilter;
 
 class DepartmentResource extends Resource
 {
@@ -31,6 +30,11 @@ class DepartmentResource extends Resource
     protected static ?string $modelLabel = 'Employees Department';
 
     protected static ?string $navigationGroup = 'System Management';
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
 
     protected static ?int $navigationSort = 4;
 

@@ -9,12 +9,15 @@ use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
+use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Components\TextEntry;
 use App\Filament\Resources\EmployeeResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\EmployeeResource\RelationManagers;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Contracts\Support\Htmlable;
 
 class EmployeeResource extends Resource
 {
@@ -23,6 +26,34 @@ class EmployeeResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-user-group';
 
     protected static ?string $navigationGroup = 'Employee Management';
+
+    protected static ?string $recordTitleAttribute = 'first_name';
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return [
+            'first_name',
+            'last_name' ,
+            'middle_name' ,
+        ];
+    }
+
+    public static function getGlobalSearchResultDetails(Model $record): array
+    {
+        return [
+            'Department' => $record->department->name
+        ];
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
+
+    public static function getNavigationBadgeColor(): string|array|null
+    {
+        return 'warning';
+    }
 
     public static function form(Form $form): Form
     {
@@ -112,7 +143,10 @@ class EmployeeResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                SelectFilter::make('Department')
+                    ->relationship('department', 'name')
+                    ->searchable()
+                    ->preload(),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
