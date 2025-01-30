@@ -32,25 +32,14 @@ class Employee extends Model
     {
         return $this->belongsTo(Country::class);
     }
-
-    /**
-     * Get all of the comments for the Employee
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
-     */
-    public function state(): HasManyThrough
+    public function state(): BelongsTo
     {
-        return $this->hasManyThrough(State::class, Country::class);
+        return $this->belongsTo(State::class);
     }
-    public function city(): HasManyThrough
+    public function city(): BelongsTo
     {
-        return $this->hasManyThrough(City::class, State::class);
+        return $this->belongsTo(City::class);
     }
-    /**
-     * Get the user that owns the Employee
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
     public function department(): BelongsTo
     {
         return $this->belongsTo(Department::class);

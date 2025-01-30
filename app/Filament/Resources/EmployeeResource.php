@@ -70,18 +70,18 @@ class EmployeeResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('country_id')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('state_id')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('city_id')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('department_id')
-                    ->numeric()
-                    ->sortable(),
+                Tables\Columns\TextColumn::make('country.name')
+                    ->sortable()
+                    ->hidden(true),
+                Tables\Columns\TextColumn::make('state.name')
+                    ->sortable()
+                    ->hidden(true),
+                Tables\Columns\TextColumn::make('city.name')
+                    ->sortable()
+                    ->hidden(true),
+                Tables\Columns\TextColumn::make('department.name')
+                    ->sortable()
+                    ->hidden(true),
                 Tables\Columns\TextColumn::make('first_name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('last_name')
@@ -89,9 +89,11 @@ class EmployeeResource extends Resource
                 Tables\Columns\TextColumn::make('middle_name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('address')
-                    ->searchable(),
+                    ->searchable()
+                    ->hidden(true),
                 Tables\Columns\TextColumn::make('zip_code')
-                    ->searchable(),
+                    ->searchable()
+                    ->hidden(true),
                 Tables\Columns\TextColumn::make('date_of_birth')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('date_of_hire')
