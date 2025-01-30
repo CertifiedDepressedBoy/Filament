@@ -2,16 +2,19 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\EmployeeResource\Pages;
-use App\Filament\Resources\EmployeeResource\RelationManagers;
-use App\Models\Employee;
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
 use Filament\Tables;
+use App\Models\Employee;
+use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Filament\Infolists\Infolist;
+use Filament\Resources\Resource;
 use Illuminate\Database\Eloquent\Builder;
+use Filament\Infolists\Components\Section;
+use Filament\Infolists\Components\TextEntry;
+use App\Filament\Resources\EmployeeResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\EmployeeResource\RelationManagers;
 
 class EmployeeResource extends Resource
 {
@@ -72,30 +75,31 @@ class EmployeeResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('country.name')
                     ->sortable()
-                    ->hidden(true),
+                    ->toggleable(isToggledHiddenByDefault:true),
                 Tables\Columns\TextColumn::make('state.name')
                     ->sortable()
-                    ->hidden(true),
+                    ->toggleable(isToggledHiddenByDefault:true),
                 Tables\Columns\TextColumn::make('city.name')
                     ->sortable()
-                    ->hidden(true),
+                    ->toggleable(isToggledHiddenByDefault:true),
                 Tables\Columns\TextColumn::make('department.name')
-                    ->sortable()
-                    ->hidden(true),
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('first_name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('last_name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('middle_name')
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('address')
                     ->searchable()
-                    ->hidden(true),
+                    ->toggleable(isToggledHiddenByDefault:true),
                 Tables\Columns\TextColumn::make('zip_code')
                     ->searchable()
-                    ->hidden(true),
+                    ->toggleable(isToggledHiddenByDefault:true),
                 Tables\Columns\TextColumn::make('date_of_birth')
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('date_of_hire')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
@@ -121,6 +125,33 @@ class EmployeeResource extends Resource
             ]);
     }
 
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Section::make('Name')
+                ->schema([
+                    TextEntry::make('first_name'),
+                    TextEntry::make('middle_name'),
+                    TextEntry::make('last_name'),
+                ])->columns(3),
+                Section::make('Address')
+                ->schema([
+                    TextEntry::make('country.name'),
+                    TextEntry::make('state.name'),
+                    TextEntry::make('city.name'),
+                    TextEntry::make('department.name'),
+                    TextEntry::make('address'),
+                    TextEntry::make('zip_code'),
+                ])->columns(3),
+                Section::make('Date')
+                ->schema([
+                    TextEntry::make('date_of_birth'),
+                    TextEntry::make('date_of_hire'),
+                ])->columns(2),
+            ]);
+    }
+
     public static function getRelations(): array
     {
         return [
@@ -133,7 +164,7 @@ class EmployeeResource extends Resource
         return [
             'index' => Pages\ListEmployees::route('/'),
             'create' => Pages\CreateEmployee::route('/create'),
-            'view' => Pages\ViewEmployee::route('/{record}'),
+            // 'view' => Pages\ViewEmployee::route('/{record}'),
             'edit' => Pages\EditEmployee::route('/{record}/edit'),
         ];
     }
