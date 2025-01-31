@@ -13,7 +13,7 @@ class Team extends Model
         'slug'
     ];
 
-    public function employee() : HasMany
+    public function employees() : HasMany
     {
         return $this->hasMany(Employee::class);
     }
@@ -21,5 +21,10 @@ class Team extends Model
     public function members() : BelongsToMany
     {
         return $this->belongsToMany(User::class);
+    }
+
+    public function departments() : HasMany
+    {
+        return $this->hasMany(Department::class);
     }
 }
